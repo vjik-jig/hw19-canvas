@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Canvas painting</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script>
+      const points = [[50, 50], [50, 100], [100, 100], [100, 50], [50, 50]];
+      const ctx = document.getElementById("canvas").getContext("2d");
+      const rectAngle = arr => {
+        ctx.beginPath();
+        ctx.moveTo(arr[0][0], arr[0][1]);
+        for (let i = 1; i < arr.length; i++) {
+          ctx.lineTo(points[i][0], points[i][1]);
+        }
+        ctx.stroke();
+      };
+      rectAngle(points);
+
+      const snowMan = function(posX, posY, radius, isFilled) {
+        ctx.beginPath();
+        ctx.fillStyle = "blue";
+        ctx.arc(posX, posY, radius, 0, 2 * Math.PI);
+        if (isFilled) {
+          ctx.fill();
+        }
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.arc(posX, posY, radius / 8, 0, 2 * Math.PI);
+        ctx.fill();
+        let prevRadius = radius;
+        let currentRadius = radius;
+        let currentY = posY;
+        for (let i = 0; i < 2; i++) {
+          currentRadius = currentRadius * 1.2;
+          currentY = currentY + prevRadius + currentRadius;
+          ctx.beginPath();
+          ctx.fillStyle = "blue";
+          ctx.arc(posX, currentY, currentRadius, 0, 2 * Math.PI);
+          if (isFilled) {
+            ctx.fill();
+          }
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.fillStyle = "black";
+          ctx.arc(posX, currentY, currentRadius / 8, 0, 2 * Math.PI);
+          ctx.fill();
+          prevRadius = prevRadius * 1.2;
+        }
+      };
+      snowMan(150, 50, 40, true);
+    </script>
+  </body>
+</html>
